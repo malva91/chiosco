@@ -192,6 +192,17 @@ class ChioscoApp {
             return;
         }
         
+        // Check if we're updating an existing record
+        const selectedDate = this.ui.elements.dataInput.value;
+        const existingRecord = this.currentData.find(record => record.data === selectedDate);
+        
+        if (existingRecord) {
+            const shouldUpdate = await this.confirmUpdate(selectedDate);
+            if (!shouldUpdate) {
+                return;
+            }
+        }
+        
         const calc = this.calculator.calculate();
         const formData = {
             data: this.ui.elements.dataInput.value,
@@ -274,23 +285,35 @@ class ChioscoApp {
         
         data.forEach(record => {
             const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${utils.formatDate(record.data)}</td>
-                <td>${utils.formatCurrency(record.contanti)}</td>
-                <td>${utils.formatCurrency(record.pos1)}</td>
-                <td>${utils.formatCurrency(record.pos2)}</td>
-                <td>${utils.formatCurrency(record.ticket)}</td>
-                <td>${utils.formatCurrency(record.chiusura)}</td>
-                <td><strong>${utils.formatCurrency(record.totale)}</strong></td>
-                <td style="color: var(--nero-color)"><strong>${utils.formatCurrency(record.nero)}</strong></td>
-                <td style="color: var(--bianco-color)"><strong>${utils.formatCurrency(record.bianco)}</strong></td>
-                <td style="color: var(--deposito-color)"><strong>${utils.formatCurrency(record.daDepositare)}</strong></td>
-                <td class="actions">
-                    <button class="btn btn-danger btn-sm" onclick="app.confirmDelete('${record.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            `;
+            
+            // Create cells
+            const cells = [
+                utils.formatDate(record.data),
+                utils.formatCurrency(record.contanti),
+                utils.formatCurrency(record.pos1),
+                utils.formatCurrency(record.pos2),
+                utils.formatCurrency(record.ticket),
+                utils.formatCurrency(record.chiusura),
+                `<strong>${utils.formatCurrency(record.totale)}</strong>`,
+                `<strong style="color: var(--nero-color)">${utils.formatCurrency(record.nero)}</strong>`,
+                `<strong style="color: var(--bianco-color)">${utils.formatCurrency(record.bianco)}</strong>`,
+                `<strong style="color: var(--deposito-color)">${utils.formatCurrency(record.daDepositare)}</strong>`
+            ];
+            
+            // Add data cells
+            cells.forEach(cellContent => {
+                const cell = document.createElement('td');
+                cell.innerHTML = cellContent;
+                row.appendChild(cell);
+            });
+            
+            // Add actions cell
+            const actionsCell = document.createElement('td');
+            actionsCell.className = 'actions';
+            const deleteBtn = this.ui.createDeleteButton(record.id, (id) => this.confirmDelete(id));
+            actionsCell.appendChild(deleteBtn);
+            row.appendChild(actionsCell);
+            
             tbody.appendChild(row);
         });
     }
@@ -414,6 +437,32 @@ class ChioscoApp {
         );
     }
     
+    confirmUpdate(date) {
+        return new Promise((resolve) => {
+            this.ui.showModal(
+                'Record Esistente',
+                `Esiste già un record per la data ${utils.formatDate(date)}. Vuoi sostituirlo con i nuovi dati?`,
+                () => resolve(true)
+            );
+            
+            // Override cancel action to resolve false
+            if (this.ui.elements.cancelAction) {
+                const originalCancel = this.ui.elements.cancelAction.onclick;
+                this.ui.elements.cancelAction.onclick = () => {
+                    this.ui.hideModal();
+                    resolve(false);
+                };
+                
+                // Restore original cancel after this operation
+                setTimeout(() => {
+                    if (this.ui.elements.cancelAction) {
+                        this.ui.elements.cancelAction.onclick = originalCancel;
+                    }
+                }, 100);
+            }
+        });
+    }
+    
     exportToExcel() {
         if (this.currentData.length === 0) {
             this.ui.showNotification('Nessun dato da esportare', 'warning');
@@ -467,6 +516,8 @@ let app;
 
 document.addEventListener('DOMContentLoaded', () => {
     app = new ChioscoApp();
+    // Make app globally available for any remaining onclick handlers
+    window.app = app;
 });
 
 // Handle online/offline status
@@ -487,6 +538,3 @@ window.addEventListener('load', () => {
     const loadTime = performance.now();
     console.log(`App loaded in ${loadTime.toFixed(2)}ms`);
 });
-
-// Export app instance for global access (needed for onclick handlers)
-window.app = app;

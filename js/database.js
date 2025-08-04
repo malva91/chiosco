@@ -31,6 +31,23 @@ export class DatabaseManager {
         try {
             this.ui.showLoading();
             
+            // Check if a record with the same date already exists
+            const existingQuery = await this.db.collection(constants.COLLECTION_NAME)
+                .where('data', '==', data.data)
+                .get();
+            
+            if (!existingQuery.empty) {
+                // Update existing record instead of creating new one
+                const existingDoc = existingQuery.docs[0];
+                await existingDoc.ref.update({
+                    ...data,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                this.ui.showNotification('Incasso aggiornato con successo!', 'success');
+                return true;
+            }
+            
+            // Create new record if no existing date found
             const docData = {
                 ...data,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()

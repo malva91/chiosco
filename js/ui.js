@@ -172,6 +172,14 @@ export class UIManager {
         }
     }
     
+    createDeleteButton(recordId, onDelete) {
+        const button = document.createElement('button');
+        button.className = 'btn btn-danger btn-sm';
+        button.innerHTML = '<i class="fas fa-trash"></i>';
+        button.addEventListener('click', () => onDelete(recordId));
+        return button;
+    }
+    
     formatCurrency(amount) {
         try {
             return new Intl.NumberFormat('it-IT', {
