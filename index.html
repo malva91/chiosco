@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Incassi Chiosco</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-cash-register"></i>
+                        <h1>Gestione Incassi</h1>
+                    </div>
+                    <nav class="nav">
+                        <button class="nav-btn active" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </button>
+                        <button class="nav-btn" data-section="analytics">
+                            <i class="fas fa-chart-line"></i>
+                            Analisi
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <!-- Dashboard Section -->
+                <section class="section active" id="dashboard">
+                    <div class="section-header">
+                        <h2><i class="fas fa-plus-circle"></i> Inserimento Incasso Giornaliero</h2>
+                    </div>
+                    
+                    <div class="card">
+                        <form id="incassoForm" class="form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="data">Data</label>
+                                    <input type="date" id="data" name="data" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contanti">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        Contanti (€)
+                                    </label>
+                                    <input type="number" step="0.01" id="contanti" name="contanti" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pos1">
+                                        <i class="fas fa-credit-card"></i>
+                                        POS 1 (€)
+                                    </label>
+                                    <input type="number" step="0.01" id="pos1" name="pos1" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pos2">
+                                        <i class="fas fa-credit-card"></i>
+                                        POS 2 (€)
+                                    </label>
+                                    <input type="number" step="0.01" id="pos2" name="pos2" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ticket">
+                                        <i class="fas fa-ticket-alt"></i>
+                                        Ticket (€)
+                                    </label>
+                                    <input type="number" step="0.01" id="ticket" name="ticket" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="chiusura">
+                                        <i class="fas fa-calculator"></i>
+                                        Chiusura (€)
+                                    </label>
+                                    <input type="number" step="0.01" id="chiusura" name="chiusura" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <!-- Calcoli Automatici -->
+                            <div class="calculations">
+                                <h3><i class="fas fa-chart-pie"></i> Calcoli Automatici</h3>
+                                <div class="calc-grid">
+                                    <div class="calc-item">
+                                        <label>Totale</label>
+                                        <div class="calc-value" id="calcTotale">€ 0.00</div>
+                                    </div>
+                                    <div class="calc-item">
+                                        <label>Nero</label>
+                                        <div class="calc-value nero" id="calcNero">€ 0.00</div>
+                                    </div>
+                                    <div class="calc-item">
+                                        <label>Bianco</label>
+                                        <div class="calc-value bianco" id="calcBianco">€ 0.00</div>
+                                    </div>
+                                    <div class="calc-item">
+                                        <label>Da Depositare</label>
+                                        <div class="calc-value deposito" id="calcDeposito">€ 0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Salva Incasso
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="resetForm">
+                                    <i class="fas fa-undo"></i>
+                                    Reset
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section class="section" id="analytics">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Analisi e Flussi</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline" id="exportExcel">
+                                <i class="fas fa-file-excel"></i>
+                                Esporta Excel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filtri -->
+                    <div class="card">
+                        <div class="filters">
+                            <div class="filter-group">
+                                <label for="filterFrom">Dal:</label>
+                                <input type="date" id="filterFrom">
+                            </div>
+                            <div class="filter-group">
+                                <label for="filterTo">Al:</label>
+                                <input type="date" id="filterTo">
+                            </div>
+                            <button class="btn btn-secondary" id="applyFilters">
+                                <i class="fas fa-filter"></i>
+                                Applica Filtri
+                            </button>
+                            <button class="btn btn-outline" id="clearFilters">
+                                <i class="fas fa-times"></i>
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistiche -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-euro-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Totale Periodo</div>
+                                <div class="stat-value" id="statTotale">€ 0.00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Media Giornaliera</div>
+                                <div class="stat-value" id="statMedia">€ 0.00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon nero">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Totale Nero</div>
+                                <div class="stat-value" id="statNero">€ 0.00</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bianco">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-label">Totale Bianco</div>
+                                <div class="stat-value" id="statBianco">€ 0.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grafici -->
+                    <div class="charts-grid">
+                        <div class="card">
+                            <h3><i class="fas fa-chart-pie"></i> Distribuzione Incassi</h3>
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                        <div class="card">
+                            <h3><i class="fas fa-chart-bar"></i> Rapporto Bianco/Nero</h3>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                        <div class="card wide">
+                            <h3><i class="fas fa-chart-line"></i> Andamento Mensile</h3>
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Tabella Dati -->
+                    <div class="card">
+                        <div class="table-header">
+                            <h3><i class="fas fa-table"></i> Storico Incassi</h3>
+                        </div>
+                        <div class="table-container">
+                            <table id="dataTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-sort="data">Data <i class="fas fa-sort"></i></th>
+                                        <th data-sort="contanti">Contanti <i class="fas fa-sort"></i></th>
+                                        <th data-sort="pos1">POS 1 <i class="fas fa-sort"></i></th>
+                                        <th data-sort="pos2">POS 2 <i class="fas fa-sort"></i></th>
+                                        <th data-sort="ticket">Ticket <i class="fas fa-sort"></i></th>
+                                        <th data-sort="chiusura">Chiusura <i class="fas fa-sort"></i></th>
+                                        <th data-sort="totale">Totale <i class="fas fa-sort"></i></th>
+                                        <th data-sort="nero">Nero <i class="fas fa-sort"></i></th>
+                                        <th data-sort="bianco">Bianco <i class="fas fa-sort"></i></th>
+                                        <th data-sort="daDepositare">Da Depositare <i class="fas fa-sort"></i></th>
+                                        <th>Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Dati popolati dinamicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal per conferme -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Conferma</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Sei sicuro di voler procedere?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelAction">Annulla</button>
+                <button class="btn btn-danger" id="confirmAction">Conferma</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <span class="notification-message"></span>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Caricamento...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
