@@ -161,14 +161,12 @@ export class UIManager {
         }
         if (this.elements.calcNero) {
             this.elements.calcNero.textContent = this.formatCurrency(nero);
-            this.elements.calcNero.style.color = nero < 0 ? '#ef4444' : '#ef4444';
         }
         if (this.elements.calcBianco) {
             this.elements.calcBianco.textContent = this.formatCurrency(bianco);
         }
         if (this.elements.calcDeposito) {
             this.elements.calcDeposito.textContent = this.formatCurrency(daDepositare);
-            this.elements.calcDeposito.style.color = daDepositare < 0 ? '#ef4444' : '#f59e0b';
         }
     }
     
