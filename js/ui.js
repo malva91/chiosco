@@ -24,7 +24,6 @@ export class UIManager {
             // Calculations
             calcTotale: document.getElementById('calcTotale'),
             calcNero: document.getElementById('calcNero'),
-            calcBianco: document.getElementById('calcBianco'),
             calcDeposito: document.getElementById('calcDeposito'),
             
             // Filters
@@ -154,16 +153,13 @@ export class UIManager {
     }
     
     updateCalculationDisplay(calculations) {
-        const { totale, nero, bianco, daDepositare } = calculations;
+        const { totale, nero, daDepositare } = calculations;
         
         if (this.elements.calcTotale) {
             this.elements.calcTotale.textContent = this.formatCurrency(totale);
         }
         if (this.elements.calcNero) {
             this.elements.calcNero.textContent = this.formatCurrency(nero);
-        }
-        if (this.elements.calcBianco) {
-            this.elements.calcBianco.textContent = this.formatCurrency(bianco);
         }
         if (this.elements.calcDeposito) {
             this.elements.calcDeposito.textContent = this.formatCurrency(daDepositare);

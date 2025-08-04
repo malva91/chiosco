@@ -787,8 +787,8 @@ body {
 /* Notification */
 .notification {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 16px;
+    right: 16px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
@@ -1001,9 +1001,14 @@ body {
     }
     
     .notification {
-        right: var(--spacing-md);
-        left: var(--spacing-md);
-        max-width: none;
+        right: 12px;
+        bottom: 12px;
+        max-width: calc(100vw - 24px);
+        transform: translateY(100px);
+    }
+    
+    .notification.show {
+        transform: translateY(0);
     }
     
     .data-table {
@@ -1045,10 +1050,9 @@ body {
     }
     
     .notification {
-        right: var(--spacing-sm);
-        bottom: var(--spacing-sm);
-        left: var(--spacing-sm);
-        max-width: none;
+        right: 8px;
+        bottom: 8px;
+        max-width: calc(100vw - 16px);
         transform: translateY(100px);
     }
     
