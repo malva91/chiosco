@@ -36,12 +36,12 @@ class ChioscoApp {
             // Load initial data
             await this.loadData();
             
-            // Show success message
-            this.ui.showNotification('Applicazione caricata con successo!', 'success');
+            // Show success message only if there are no errors
+            this.ui.showNotification('App caricata', 'success');
             
         } catch (error) {
             console.error('Errore nell\'inizializzazione:', error);
-            this.ui.showNotification('Errore nell\'inizializzazione dell\'applicazione', 'error');
+            this.ui.showNotification('Errore inizializzazione', 'error');
         }
     }
     
@@ -394,7 +394,7 @@ class ChioscoApp {
         
         this.renderTable(filteredData);
         this.updateStatsForData(filteredData);
-        this.ui.showNotification(`Filtri applicati: ${filteredData.length} record trovati`, 'info');
+        this.ui.showNotification(`${filteredData.length} record trovati`, 'info');
     }
     
     clearFilters() {
@@ -402,7 +402,7 @@ class ChioscoApp {
         if (this.ui.elements.filterTo) this.ui.elements.filterTo.value = '';
         this.renderTable();
         this.updateStats();
-        this.ui.showNotification('Filtri rimossi', 'info');
+        this.ui.showNotification('Filtri reset', 'info');
     }
     
     updateStatsForData(data) {
@@ -502,11 +502,11 @@ class ChioscoApp {
             // Save file
             XLSX.writeFile(wb, filename);
             
-            this.ui.showNotification('File Excel esportato con successo!', 'success');
+            this.ui.showNotification('Excel esportato', 'success');
             
         } catch (error) {
             console.error('Errore nell\'esportazione:', error);
-            this.ui.showNotification('Errore nell\'esportazione del file', 'error');
+            this.ui.showNotification('Errore esportazione', 'error');
         }
     }
 }
@@ -523,13 +523,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Handle online/offline status
 window.addEventListener('online', () => {
     if (app) {
-        app.ui.showNotification('Connessione ripristinata', 'success');
+        app.ui.showNotification('Online', 'success');
     }
 });
 
 window.addEventListener('offline', () => {
     if (app) {
-        app.ui.showNotification('Connessione persa - modalità offline', 'warning');
+        app.ui.showNotification('Offline', 'warning');
     }
 });
 

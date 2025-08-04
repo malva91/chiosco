@@ -43,7 +43,7 @@ export class DatabaseManager {
                     ...data,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                this.ui.showNotification('Incasso aggiornato con successo!', 'success');
+                this.ui.showNotification('Incasso aggiornato', 'success');
                 return true;
             }
             
@@ -54,12 +54,12 @@ export class DatabaseManager {
             };
             
             await this.db.collection(constants.COLLECTION_NAME).add(docData);
-            this.ui.showNotification('Incasso salvato con successo!', 'success');
+            this.ui.showNotification('Incasso salvato', 'success');
             return true;
             
         } catch (error) {
             console.error('Errore nel salvataggio:', error);
-            this.ui.showNotification('Errore nel salvataggio dei dati', 'error');
+            this.ui.showNotification('Errore salvataggio', 'error');
             return false;
         } finally {
             this.ui.hideLoading();
@@ -88,7 +88,7 @@ export class DatabaseManager {
             
         } catch (error) {
             console.error('Errore nel caricamento:', error);
-            this.ui.showNotification('Errore nel caricamento dei dati', 'error');
+            this.ui.showNotification('Errore caricamento', 'error');
             return [];
         } finally {
             this.ui.hideLoading();
@@ -105,12 +105,12 @@ export class DatabaseManager {
             this.ui.showLoading();
             
             await this.db.collection(constants.COLLECTION_NAME).doc(id).delete();
-            this.ui.showNotification('Record eliminato con successo!', 'success');
+            this.ui.showNotification('Record eliminato', 'success');
             return true;
             
         } catch (error) {
             console.error('Errore nell\'eliminazione:', error);
-            this.ui.showNotification('Errore nell\'eliminazione del record', 'error');
+            this.ui.showNotification('Errore eliminazione', 'error');
             return false;
         } finally {
             this.ui.hideLoading();
@@ -131,12 +131,12 @@ export class DatabaseManager {
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             });
             
-            this.ui.showNotification('Record aggiornato con successo!', 'success');
+            this.ui.showNotification('Record aggiornato', 'success');
             return true;
             
         } catch (error) {
             console.error('Errore nell\'aggiornamento:', error);
-            this.ui.showNotification('Errore nell\'aggiornamento del record', 'error');
+            this.ui.showNotification('Errore aggiornamento', 'error');
             return false;
         } finally {
             this.ui.hideLoading();

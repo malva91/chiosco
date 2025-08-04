@@ -120,10 +120,10 @@ export class UIManager {
         // Show notification
         notification.classList.add('show');
         
-        // Auto hide after 5 seconds
+        // Auto hide after 3 seconds
         setTimeout(() => {
             notification.classList.remove('show');
-        }, 5000);
+        }, 3000);
     }
     
     showModal(title, message, onConfirm) {
