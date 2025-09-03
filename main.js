@@ -295,9 +295,9 @@ class ChioscoApp {
                 utils.formatCurrency(record.ticket),
                 utils.formatCurrency(record.chiusura),
                 `<strong>${utils.formatCurrency(record.totale)}</strong>`,
-                `<strong style="color: var(--nero-color)">${utils.formatCurrency(record.nero)}</strong>`,
-                `<strong style="color: var(--bianco-color)">${utils.formatCurrency(record.bianco)}</strong>`,
-                `<strong style="color: var(--deposito-color)">${utils.formatCurrency(record.daDepositare)}</strong>`
+                `<strong >${utils.formatCurrency(record.nero)}</strong>`,
+                `<strong >${utils.formatCurrency(record.bianco)}</strong>`,
+                `<strong >${utils.formatCurrency(record.daDepositare)}</strong>`
             ];
             
             // Add data cells

@@ -334,8 +334,8 @@ body {
 }
 
 .calc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-lg);
 }
 
@@ -381,8 +381,8 @@ body {
     border-radius: 10px;}
 
 .calc-value.deposito {
-    color: rgb(0, 0, 0);
-    background-color:rgb(0, 153, 255);
+    color: black;
+    background-color:rgb(255, 255, 255);
     border-radius: 10px;}
 
 /* Buttons */
